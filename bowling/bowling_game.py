@@ -5,6 +5,7 @@ A module for calculating bowling game scores.
 
 
 class BowlingGame:
+
     def __init__(self):
         # Initialize a new game with 10 frames
         # Each frame has up to 2 rolls (except the 10th frame which can have 3)
@@ -56,9 +57,11 @@ class BowlingGame:
         """
         Check if the sum of two rolls is a spare (exactly 10 pins over two rolls).
         """
-        return
-        frame_index + 1 < len(self.rolls) and self.rolls[frame_index] +
-        self.rolls[frame_index + 1] == 10
+
+        return (
+            frame_index + 1 < len(self.rolls)
+            and self.rolls[frame_index] + self.rolls[frame_index + 1] == 10
+        )
 
     def _strike_bonus(self, frame_index):
         """
