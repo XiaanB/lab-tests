@@ -21,29 +21,26 @@ class BowlingGame:
         self.current_roll += 1  # Tracking total rolls
 
     def score(self):
-        """Calculate the score for the current game.
+        """
+        Calculate the total score for the game, including bonus rolls in the 10th frame.
 
-        ⚠️ BUG: Only scores 9 frames instead of 10.
-        The loop should run 10 times (bowling has 10 frames),
-        and the 10th frame requires special handling for extra rolls.
+        Returns:
+            int: The total score for the current game.
         """
         score = 0
         frame_index = 0
 
-        # 🔴 BUG: Should be `range(10)` to include the 10th frame
-        for frame in range(9):  # Only scoring 9 frames
+        for frame in range(10):
             if self._is_strike(frame_index):
-                # Strike: add 10 + next 2 rolls
                 score += 10 + self._strike_bonus(frame_index)
                 frame_index += 1
             elif self._is_spare(frame_index):
-                # Spare: add 10 + next roll
                 score += 10 + self._spare_bonus(frame_index)
                 frame_index += 2
             else:
-                # Open frame: just sum the two rolls
                 score += self.rolls[frame_index] + self.rolls[frame_index + 1]
                 frame_index += 2
+
         return score
 
     def _is_strike(self, frame_index):
@@ -75,11 +72,6 @@ class BowlingGame:
         return bonus
 
     def _spare_bonus(self, frame_index):
-        """
-        Calculate the bonus for a spare.
-        Args:
-        frame_index: Index of the first roll in a spare
-        Returns:
-        The value of the roll after the spare
-        """
-        return self.rolls[frame_index + 2]
+        if frame_index + 2 < len(self.rolls):
+            return self.rolls[frame_index + 2]
+        return 0

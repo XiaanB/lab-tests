@@ -25,9 +25,9 @@ class TestBowlingGame(unittest.TestCase):
         self.assertEqual(self.game.score(), 7)
 
     def test_TC02_spare(self):
-        self.roll_spare()
-        self.game.roll(5)
-        self.roll_many(17, 0)
+        self.roll_spare()       # Frame 1: 5 + 5 = 10 (spare)
+        self.game.roll(5)       # Frame 2: first roll = 5
+        self.roll_many(17, 0)   # Rest of the game is all zeroes
         self.assertEqual(self.game.score(), 20)
 
     def test_TC03_strike(self):
@@ -44,6 +44,28 @@ class TestBowlingGame(unittest.TestCase):
         self.game.roll(2)
         self.roll_many(14, 0)
         self.assertEqual(self.game.score(), 46)
+
+    def test_TC05_tenth_frame_spare(self):
+        self.roll_many(18, 0)        # Frames 1–9: all gutter balls
+        self.game.roll(7)            # Frame 10, Roll 1
+        self.game.roll(3)            # Frame 10, Roll 2 → 7 + 3 = 10 = spare
+        self.game.roll(5)            # Bonus roll
+        self.assertEqual(self.game.score(), 15)
+
+    def test_TC06_tenth_frame_strike(self):
+        self.roll_many(18, 0)
+        self.roll_strike()
+        self.game.roll(10)
+        self.game.roll(10)
+        self.assertEqual(self.game.score(), 30)
+
+    def test_TC07_perfect_game(self):
+        self.roll_many(12, 10)
+        self.assertEqual(self.game.score(), 300)
+
+    def test_TC08_all_gutter_balls(self):
+        self.roll_many(20, 0)
+        self.assertEqual(self.game.score(), 0)
 
 
 if __name__ == '__main__':
