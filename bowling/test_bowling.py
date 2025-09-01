@@ -1,7 +1,7 @@
 # test_bowling.py
 
 import pytest
-from bowling import BowlingGame  # Adjust this import if your file/class is named differently
+from bowling_game import BowlingGame  # Adjust this import if your file/class is named differently
 
 @pytest.fixture
 def game():

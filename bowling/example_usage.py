@@ -1,4 +1,5 @@
 
+from bowling_game import BowlingGame
 Page
 2
 of 6
@@ -16,9 +17,9 @@ Note: Students should use these examples to verify their
 implementation
 is calculating scores correctly after fixing any bugs.
 """
-from bowling_game import BowlingGame
 def print_game_results(game_name, rolls, expected_score,
 actual_score):
+
 """Print the results of a game, showing expected vs actual
 score."""
 print(f"\n{game_name}:")
@@ -27,6 +28,7 @@ print(f"Expected score: {expected_score}")
 print(f"Actual score: {actual_score}")
 print(f"Correct implementation: {''}")
 def example_game():
+
 """
 Play a sample game with strikes, spares and open frames.
 Frames and scoring:
@@ -89,6 +91,7 @@ print_game_results("Example Game", rolls, expected_score,
 actual_score)
 return actual_score
 def perfect_game():
+
 """
 Play a perfect game (all strikes).
 Frames and scoring:
@@ -117,6 +120,7 @@ print_game_results("Perfect Game", rolls, expected_score,
 actual_score)
 return actual_score
 def all_spares():
+
 """
 Play a game with all spares (5 + 5 each frame) and a final 5.
 Frames and scoring:
@@ -145,6 +149,7 @@ print_game_results("All Spares Game", rolls, expected_score,
 actual_score)
 return actual_score
 def gutter_game():
+
 """
 Play a game with all gutter balls (0 pins).
 Expected score: 0
@@ -162,6 +167,7 @@ print_game_results("Gutter Game", rolls, expected_score,
 actual_score)
 return actual_score
 def regular_game():
+
 """
 Play a regular game with no strikes or spares.
 Frames and scoring:
@@ -189,6 +195,7 @@ print_game_results("Regular Game", rolls, expected_score,
 actual_score)
 return actual_score
 def main():
+
 """Run all example games and print a summary."""
 print("BOWLING GAME EXAMPLES")
 print("=====================")
