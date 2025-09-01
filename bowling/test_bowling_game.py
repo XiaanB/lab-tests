@@ -37,6 +37,14 @@ class TestBowlingGame(unittest.TestCase):
         self.roll_many(16, 0)
         self.assertEqual(self.game.score(), 24)
 
+    def test_TC04_two_strikes(self):
+        self.roll_strike()
+        self.roll_strike()
+        self.game.roll(4)
+        self.game.roll(2)
+        self.roll_many(14, 0)
+        self.assertEqual(self.game.score(), 46)
+
 
 if __name__ == '__main__':
     unittest.main()
