@@ -67,7 +67,12 @@ class BowlingGame:
         Bonus for a spare: the next roll.
         Assumes the roll exists — will throw IndexError if not.
         """
-        return self.rolls[frame_index + 1] + self.rolls[frame_index + 2]
+        bonus = 0
+        if frame_index + 1 < len(self.rolls):
+            bonus += self.rolls[frame_index + 1]
+        if frame_index + 2 < len(self.rolls):
+            bonus += self.rolls[frame_index + 2]
+        return bonus
 
     def _spare_bonus(self, frame_index):
         """
