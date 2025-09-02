@@ -17,9 +17,40 @@ Example:
 class BowlingGame:
     """A class to represent a standard 10-frame bowling game.
 
+    Tracks each roll, calculates scores for strikes, spares, and open frames,
+    and computes the final game score including bonus rolls in the 10th frame.
+
     Attributes:
         rolls (list[int]): Stores the number of pins knocked down in each roll sequentially.
         current_roll (int): Tracks the current roll index (currently unused).
+
+    Example:
+        # Create a new game
+        game = BowlingGame()
+
+        # Roll a strike in the first frame
+        game.roll(10)
+
+        # Roll two more rolls in the second frame
+        game.roll(3)
+        game.roll(6)
+
+        # Calculate total score so far
+        score = game.score()
+        print(score)  # Output: 28
+
+        # Simulate a spare
+        game = BowlingGame()
+        game.roll(5)
+        game.roll(5)  # Spare
+        game.roll(7)  # Next roll counts as bonus
+        print(game.score())  # Output: 17
+
+        # Perfect game (12 strikes)
+        perfect_game = BowlingGame()
+        for _ in range(12):
+            perfect_game.roll(10)
+        print(perfect_game.score())  # Output: 300
     """
 
     def __init__(self):
