@@ -14,10 +14,7 @@ class BowlingGame:
     def roll(self, pins):
         """
         Records a roll in the game.
-        Args:
-            pins: Number of pins knocked down in this roll
-        Raises:
-            ValueError: If pins is negative or greater than 10
+        Raises ValueError if pins invalid or frame sum > 10 (except 10th frame bonuses).
         """
         if not isinstance(pins, int):
             raise TypeError("Pins must be an integer")
@@ -26,8 +23,26 @@ class BowlingGame:
         if pins > 10:
             raise ValueError("Pins cannot be greater than 10")
 
-        self.rolls.append(pins)
-        self.current_roll += 1  # Tracking total rolls
+        # Frame-aware validation for frames 1-9
+        rolls = self.rolls
+        frame = 0
+        i = 0
+        while frame < 9 and i < len(rolls):
+            if rolls[i] == 10:
+                i += 1
+            else:
+                i += 2
+            frame += 1
+
+        # For frames 1-9, check if current roll + previous in frame > 10
+        if frame < 9:
+            # Check if we are the second roll of a frame
+            if len(rolls) % 2 == 1 and rolls[-1] != 10:
+                if rolls[-1] + pins > 10:
+                    raise ValueError("Frame total cannot exceed 10 pins")
+
+        # Append the roll
+        rolls.append(pins)
 
     def score(self):
         """

@@ -75,6 +75,22 @@ class TestBowlingGame(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.game.roll(11)
 
+    def test_TC11_all_spares(self):
+        # Every frame is a spare: 5 + 5 → 10 frames
+        for _ in range(10):
+            self.roll_spare()
+        # Bonus roll for 10th frame spare
+        self.game.roll(5)
+
+        # Each spare = 10 + next roll (5) = 15 points per frame
+        # Total score = 10 frames × 15 = 150
+        self.assertEqual(self.game.score(), 150)
+
+    def test_TC12_frame_total_exceeds_ten(self):
+        self.game.roll(8)
+        with self.assertRaises(ValueError):
+            self.game.roll(5)  # 8 + 5 = 13 > 10 → invalid
+
 
 if __name__ == '__main__':
     unittest.main()
