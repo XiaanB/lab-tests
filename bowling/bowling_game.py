@@ -12,37 +12,43 @@ class BowlingGame:
         self.current_roll = 0  # This is unused in current logic but could track roll index
 
     def roll(self, pins):
-        """
-        Records a roll in the game.
-        Raises ValueError if pins invalid or frame sum > 10 (except 10th frame bonuses).
-        """
         if not isinstance(pins, int):
             raise TypeError("Pins must be an integer")
-        if pins < 0:
-            raise ValueError("Pins cannot be negative")
-        if pins > 10:
-            raise ValueError("Pins cannot be greater than 10")
+        if pins < 0 or pins > 10:
+            raise ValueError("Pins must be between 0 and 10")
 
-        # Frame-aware validation for frames 1-9
-        rolls = self.rolls
         frame = 0
         i = 0
-        while frame < 9 and i < len(rolls):
-            if rolls[i] == 10:
+
+        # Determine current frame based on rolls so far
+        while frame < 9 and i < len(self.rolls):
+            if self.rolls[i] == 10:
                 i += 1
             else:
                 i += 2
             frame += 1
 
-        # For frames 1-9, check if current roll + previous in frame > 10
+        # ❗ Only validate rolls in frames 1–9
         if frame < 9:
-            # Check if we are the second roll of a frame
-            if len(rolls) % 2 == 1 and rolls[-1] != 10:
-                if rolls[-1] + pins > 10:
+            frame_roll_count = 0
+            frame_start = 0
+            j = 0
+            while frame_roll_count < frame and j < len(self.rolls):
+                if self.rolls[j] == 10:
+                    j += 1
+                else:
+                    j += 2
+                frame_roll_count += 1
+            frame_start = j
+
+            # If one roll already in current frame and not a strike
+            if len(self.rolls) > frame_start:
+                first_roll = self.rolls[frame_start]
+                if first_roll != 10 and first_roll + pins > 10:
                     raise ValueError("Frame total cannot exceed 10 pins")
 
-        # Append the roll
-        rolls.append(pins)
+        # ✅ No validation in 10th frame — bonus rolls allowed
+        self.rolls.append(pins)
 
     def score(self):
         """
