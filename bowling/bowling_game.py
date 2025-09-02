@@ -11,11 +11,6 @@ class BowlingGame:
         self.rolls = []
         self.current_roll = 0  # This is unused in current logic but could track roll index
 
-
-class BowlingGame:
-    def __init__(self):
-        self.rolls = []
-
     def roll(self, pins):
         if not isinstance(pins, int):
             raise TypeError("Pins must be an integer")
@@ -78,42 +73,3 @@ class BowlingGame:
 
     def _spare_bonus(self, i):
         return self.rolls[i + 2] if i + 2 < len(self.rolls) else 0
-
-    def score(self):
-        """
-        Calculate the total score for the game, including bonus rolls in the 10th frame.
-
-        Returns:
-            int: The total score for the current game.
-        """
-        score = 0
-        frame_index = 0
-
-        for frame in range(10):
-            if self._is_strike(frame_index):
-                score += 10 + self._strike_bonus(frame_index)
-                frame_index += 1
-            elif self._is_spare(frame_index):
-                score += 10 + self._spare_bonus(frame_index)
-                frame_index += 2
-            else:
-                score += self.rolls[frame_index] + self.rolls[frame_index + 1]
-                frame_index += 2
-
-        return score
-
-    def _is_strike(self, frame_index):
-        """Return True if the roll at frame_index is a strike (10 pins)."""
-        return self.rolls[frame_index:frame_index + 1] == [10]
-
-    def _is_spare(self, frame_index):
-        """Return True if the two rolls starting at frame_index form a spare (sum to 10)."""
-        return sum(self.rolls[frame_index:frame_index + 2]) == 10 and len(self.rolls[frame_index:frame_index + 2]) == 2
-
-    def _strike_bonus(self, frame_index):
-        """Return the sum of the next two rolls after a strike (0 if missing)."""
-        return sum(self.rolls[frame_index + 1: frame_index + 3])
-
-    def _spare_bonus(self, frame_index):
-        """Return the next roll after a spare (0 if missing)."""
-        return self.rolls[frame_index + 2] if frame_index + 2 < len(self.rolls) else 0
