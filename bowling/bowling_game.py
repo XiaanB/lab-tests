@@ -15,8 +15,17 @@ class BowlingGame:
         """
         Records a roll in the game.
         Args:
-        pins: Number of pins knocked down in this roll
+            pins: Number of pins knocked down in this roll
+        Raises:
+            ValueError: If pins is negative or greater than 10
         """
+        if not isinstance(pins, int):
+            raise TypeError("Pins must be an integer")
+        if pins < 0:
+            raise ValueError("Pins cannot be negative")
+        if pins > 10:
+            raise ValueError("Pins cannot be greater than 10")
+
         self.rolls.append(pins)
         self.current_roll += 1  # Tracking total rolls
 

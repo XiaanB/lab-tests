@@ -67,6 +67,14 @@ class TestBowlingGame(unittest.TestCase):
         self.roll_many(20, 0)
         self.assertEqual(self.game.score(), 0)
 
+    def test_TC09_negative_input(self):
+        with self.assertRaises(ValueError):
+            self.game.roll(-1)
+
+    def test_TC10_input_above_ten(self):
+        with self.assertRaises(ValueError):
+            self.game.roll(11)
+
 
 if __name__ == '__main__':
     unittest.main()
