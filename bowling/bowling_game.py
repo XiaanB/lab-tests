@@ -50,9 +50,11 @@ class BowlingGame:
         self.rolls.append(pins)
 
     def score(self):
+        """Calculate the total score for the game, including bonus rolls in the 10th frame."""
         score = 0
         frame_index = 0
-        for frame in range(10):
+
+        for _ in range(10):
             if self._is_strike(frame_index):
                 score += 10 + self._strike_bonus(frame_index)
                 frame_index += 1
@@ -60,8 +62,9 @@ class BowlingGame:
                 score += 10 + self._spare_bonus(frame_index)
                 frame_index += 2
             else:
-                score += self.rolls[frame_index] + self.rolls[frame_index + 1]
+                score += sum(self.rolls[frame_index:frame_index + 2])
                 frame_index += 2
+
         return score
 
     def _is_strike(self, i):
@@ -100,34 +103,17 @@ class BowlingGame:
         return score
 
     def _is_strike(self, frame_index):
-        """
-        Check if the roll at frame_index is a strike (10 pins in one roll).
-        """
-        return frame_index < len(self.rolls) and self.rolls[frame_index] == 10
+        """Return True if the roll at frame_index is a strike (10 pins)."""
+        return self.rolls[frame_index:frame_index + 1] == [10]
 
     def _is_spare(self, frame_index):
-        """
-        Check if the sum of two rolls is a spare (exactly 10 pins over two rolls).
-        """
-
-        return (
-            frame_index + 1 < len(self.rolls)
-            and self.rolls[frame_index] + self.rolls[frame_index + 1] == 10
-        )
+        """Return True if the two rolls starting at frame_index form a spare (sum to 10)."""
+        return sum(self.rolls[frame_index:frame_index + 2]) == 10 and len(self.rolls[frame_index:frame_index + 2]) == 2
 
     def _strike_bonus(self, frame_index):
-        """
-        Bonus for a spare: the next roll.
-        Assumes the roll exists — will throw IndexError if not.
-        """
-        bonus = 0
-        if frame_index + 1 < len(self.rolls):
-            bonus += self.rolls[frame_index + 1]
-        if frame_index + 2 < len(self.rolls):
-            bonus += self.rolls[frame_index + 2]
-        return bonus
+        """Return the sum of the next two rolls after a strike (0 if missing)."""
+        return sum(self.rolls[frame_index + 1: frame_index + 3])
 
     def _spare_bonus(self, frame_index):
-        if frame_index + 2 < len(self.rolls):
-            return self.rolls[frame_index + 2]
-        return 0
+        """Return the next roll after a spare (0 if missing)."""
+        return self.rolls[frame_index + 2] if frame_index + 2 < len(self.rolls) else 0
